@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="dataSource1" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/jndi/mysqldatasource1</value>
+		</property>
+	</bean>
+	<bean id="dataSource2" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/jndi/mysqldatasource2</value>
+		</property>
+	</bean>
+	<!-- weblogic -->
+	<!-- <bean id="dataSource1" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>java:comp/env/jndi/mysqldatasource1</value> 
+		</property> </bean> <bean id="dataSource2" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>java:comp/env/jndi/mysqldatasource2</value> 
+		</property> </bean> <bean id="txManager" class="org.springframework.transaction.jta.WebLogicJtaTransactionManager"> 
+		<property name="transactionManagerName" value="javax.transaction.TransactionManager" 
+		/> </bean> -->
+	<!-- tomee -->
+	<bean class="org.springframework.transaction.jta.JtaTransactionManager"
+        id="txManager">
+        <!-- <property name="transactionManagerName" 
+                       value="java:comp/env/TransactionManager"/> -->
+</bean>
+	<!-- mybatis session factory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource1" />
+		<property name="configLocation" value="classpath:resources/sql/mybatis-config.xml" />
+		<!-- <property name="mapperLocations" value="classpath:org/mybatis/spring/sample/mapper/*.xml" 
+			/> -->
+	</bean>
+	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2" />
+		<property name="configLocation" value="classpath:resources/sql/mybatis-config.xml" />
+	</bean>
+</beans>

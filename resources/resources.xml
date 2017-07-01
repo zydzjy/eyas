@@ -1,0 +1,61 @@
+<Resource id="jndi/dataSource1" type="javax.sql.XADataSource">
+    accessToUnderlyingConnectionAllowed = false
+    alternateUsernameAllowed = false
+    connectionProperties = 
+    defaultAutoCommit = true
+    defaultReadOnly = 
+    definition = 
+    ignoreDefaultValues = false
+    initialSize = 0
+    jdbcDriver = com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+    jdbcUrl = jdbc:mysql://localhost:3306/eyas_test1?characterEncoding=utf8
+    jtaManaged = true
+    maxActive = 20
+    maxIdle = 20
+    maxOpenPreparedStatements = 0
+    maxWaitTime = -1 millisecond
+    minEvictableIdleTime = 30 minutes
+    minIdle = 0
+    numTestsPerEvictionRun = 3
+    password = 
+    passwordCipher = PlainText
+    poolPreparedStatements = false
+    serviceId = 
+    testOnBorrow = true
+    testOnReturn = false
+    testWhileIdle = false
+    timeBetweenEvictionRuns = -1 millisecond
+    userName = root
+    validationQuery = 
+</Resource>
+
+<Resource id="jndi/dataSource2" type="javax.sql.XADataSource">
+    accessToUnderlyingConnectionAllowed = false
+    alternateUsernameAllowed = false
+    connectionProperties = 
+    defaultAutoCommit = true
+    defaultReadOnly = 
+    definition = 
+    ignoreDefaultValues = false
+    initialSize = 0
+    jdbcDriver = com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
+    jdbcUrl = jdbc:mysql://localhost:3306/jbpm?characterEncoding=utf8
+    jtaManaged = true
+    maxActive = 20
+    maxIdle = 20
+    maxOpenPreparedStatements = 0
+    maxWaitTime = -1 millisecond
+    minEvictableIdleTime = 30 minutes
+    minIdle = 0
+    numTestsPerEvictionRun = 3
+    password = 
+    passwordCipher = PlainText
+    poolPreparedStatements = false
+    serviceId = 
+    testOnBorrow = true
+    testOnReturn = false
+    testWhileIdle = false
+    timeBetweenEvictionRuns = -1 millisecond
+    userName = root
+    validationQuery = 
+</Resource>

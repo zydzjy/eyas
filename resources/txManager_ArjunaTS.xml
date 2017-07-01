@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 	<bean id="ds1" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+<!-- 		<property name="jndiName"> -->
+<!-- 			<value>java:comp/env/jdbc/mysqldatasource1</value> -->
+<!-- 		</property> -->
+<!--  	</bean> -->
+<!--  	<bean id="dataSource1" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+<!-- 		<property name="jndiName"> -->
+<!-- 			<value>java:comp/env/jndi/mysqldatasource2</value> -->
+<!-- 		</property> -->
+<!--  	</bean> -->
+
+	<bean id="dataSource1"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.arjuna.ats.jdbc.TransactionalDriver</value>
+		</property>
+		<property name="url" value="jdbc:arjuna:E:/Document/projects/source/eyasWeb/src/ds1.properties" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+		<property name="connectionProperties">
+			<props>
+				<prop key="user">root</prop>
+				<prop key="password"></prop>
+				<prop key="DYNAMIC_CLASS">com.arjuna.ats.internal.jdbc.drivers.PropertyFileDynamicClass</prop>
+
+			</props>
+		</property>
+	</bean>
+	<bean id="dataSource2"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.arjuna.ats.jdbc.TransactionalDriver</value>
+		</property>
+		<property name="url" value="jdbc:arjuna:E:/Document/projects/source/eyasWeb/src/ds2.properties" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+		<property name="connectionProperties">
+			<props>
+				<prop key="user">root</prop>
+				<prop key="password"></prop>
+				<prop key="DYNAMIC_CLASS">com.arjuna.ats.internal.jdbc.drivers.PropertyFileDynamicClass</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- ===================================================== -->
+	<!-- ==== TRANSACTION MANAGER CONFIG ===================== -->
+	<!-- ===================================================== -->
+
+	<bean id="jbossTransactionManager"
+		class="com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple">
+	</bean>
+
+	<bean id="jbossUserTransaction"
+		class="com.arjuna.ats.internal.jta.transaction.arjunacore.UserTransactionImple" />
+
+	<bean id="txManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager">
+			<ref bean="jbossTransactionManager" />
+		</property>
+		<property name="userTransaction">
+			<ref bean="jbossUserTransaction" />
+		</property>
+	</bean>
+
+	<!-- mybatis session factory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="databaseIdProvider">
+			<null />
+		</property>
+		<property name="dataSource" ref="dataSource1" />
+		<property name="configLocation" value="classpath:resources/sql/mybatis-config.xml" />
+	</bean>
+	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="databaseIdProvider">
+			<null />
+		</property>
+		<property name="dataSource" ref="dataSource2" />
+		<property name="configLocation" value="classpath:resources/sql/mybatis-config.xml" />
+	</bean>
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eyas.base.bean.user">
+  <insert id="addUser" keyProperty="userId" keyColumn="id" useGeneratedKeys="true" parameterType="eyas.base.bean.UserBean">
+      insert into t_user
+      (user_login_name,user_name,user_pwd)
+      values(#{userLoginName},#{userName},#{userPwd})
+  </insert>
+  <select id="queryUserByUserLoginName" resultType="eyas.base.bean.UserBean">
+      select id userId,user_login_name userLoginName,user_name userName,user_pwd userPwd 
+      from t_user where user_login_name=#{userLoginName}
+  </select>
+</mapper>

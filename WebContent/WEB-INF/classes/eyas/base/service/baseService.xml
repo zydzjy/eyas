@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean below) -->
+	<tx:advice id="saveAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="ServiceException" />
+		</tx:attributes>
+	</tx:advice>
+	<tx:advice id="queryAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+    <!-- ensure that the above transactional advice runs for any execution
+        of an operation defined by the FooService interface -->
+    <aop:config>
+        <aop:pointcut id="userServiceOperation" expression="execution(* eyas.base.service.UserService.*(..)) ||
+        				execution(* eyas.base.service.UserExtService.*(..))"/>
+        <aop:advisor advice-ref="saveAdvice" pointcut-ref="userServiceOperation"/>
+    </aop:config>
+
+	<bean id="userDaoImpl" class="eyas.base.dao.impl.mybatis.UserDaoMyBatisImpl">
+		<!-- <property name="sqlSession" ref="sqlSession" /> -->
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="userExtDaoImpl" class="eyas.base.dao.impl.mybatis.UserExtDaoMyBatisImpl">
+		<!-- <property name="sqlSession" ref="sqlSession" /> -->
+		<property name="sqlSessionFactory" ref="sqlSessionFactory2" />
+	</bean>
+	<bean id="userServiceImpl" class="eyas.base.service.impl.SimpleUserServiceImpl">
+		<property name="userDao" ref="userDaoImpl"></property>
+		<property name="UserExtService" ref="userExtServiceImpl"></property>
+	</bean>
+	<bean id="userExtServiceImpl" class="eyas.base.service.impl.SimpleUserExtServiceImpl">
+		<property name="userExtDao" ref="userExtDaoImpl"></property>
+	</bean>
+</beans>
